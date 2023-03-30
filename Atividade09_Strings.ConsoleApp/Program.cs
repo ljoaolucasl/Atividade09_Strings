@@ -1,46 +1,60 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 
 namespace Atividade09_Strings.ConsoleApp
 {
     internal class Program
     {
+        static bool continuar = true;
+
         static void Main(string[] args)
         {
-            bool continuar = true;
-            
             while (true)
             {
-                Console.Clear();
-
-                Console.WriteLine("(1)Exercício01 - Title Case");
-                Console.WriteLine("(2)Exercício02 - Número de Palavras na Frase");
-                Console.WriteLine("(3)Exercício03 - Cifra de César");
-                Console.WriteLine("(4)Exercício04 - Maior Produto");
-                Console.WriteLine("(5)Exercício05 - Manipulando Strings");
-                Console.WriteLine("(6)Exercício06 - Lista de Municípios");
+                MostraMenuPrincipal();
 
                 PulaLinha();
-
-                Console.Write("Escolha qual exercício deseja acessar: ");
-
-                int escolhaExercicio = ValidarNumero();
-
-                switch (escolhaExercicio)
-                {
-                    case 1: Exercicio01(ref continuar); break;
-                    case 2: Exercicio02(ref continuar); break;
-                    case 3: Exercicio03(ref continuar); break;
-                    case 4: Exercicio04(ref continuar); break;
-                    case 5: Exercicio05(ref continuar); break;
-                    case 6: Exercicio06(ref continuar); break;
-                    default:
-                        break;
-                }
+                EscolhaEExecucaoExercicios();
             }
         }
 
-        private static void Exercicio01(ref bool continuar)
+        private static void MostraMenuPrincipal()
+        {
+            Console.Clear();
+
+            Console.WriteLine("(1)Exercício01 - Title Case");
+            Console.WriteLine("(2)Exercício02 - Número de Palavras na Frase");
+            Console.WriteLine("(3)Exercício03 - Cifra de César");
+            Console.WriteLine("(4)Exercício04 - Maior Produto");
+            Console.WriteLine("(5)Exercício05 - Manipulando Strings");
+            Console.WriteLine("(6)Exercício06 - Lista de Municípios");
+            Console.WriteLine("(7)Exercício06V2 - Lista de Municípios V2");
+        }
+
+        private static bool EscolhaEExecucaoExercicios()
+        {
+            Console.Write("Escolha qual exercício deseja acessar: ");
+
+            int escolhaExercicio = ValidarNumero();
+
+            switch (escolhaExercicio)
+            {
+                case 1: Exercicio01(); break;
+                case 2: Exercicio02(); break;
+                case 3: Exercicio03(); break;
+                case 4: Exercicio04(); break;
+                case 5: Exercicio05(); break;
+                case 6: Exercicio06(); break;
+                case 7: Exercicio06V2(); break;
+                default:
+                    break;
+            }
+
+            return continuar;
+        }
+
+        private static void Exercicio01()
         {
             do
             {
@@ -65,7 +79,7 @@ namespace Atividade09_Strings.ConsoleApp
             } while (continuar);
         }
 
-        private static void Exercicio02(ref bool continuar)
+        private static void Exercicio02()
         {
             do
             {
@@ -84,7 +98,7 @@ namespace Atividade09_Strings.ConsoleApp
             } while (continuar);
         }
 
-        private static void Exercicio03(ref bool continuar)
+        private static void Exercicio03()
         {
             do
             {
@@ -114,7 +128,7 @@ namespace Atividade09_Strings.ConsoleApp
             } while (continuar);
         }
 
-        private static void Exercicio04(ref bool continuar)
+        private static void Exercicio04()
         {
             do
             {
@@ -176,7 +190,7 @@ namespace Atividade09_Strings.ConsoleApp
             } while (continuar);
         }
 
-        private static void Exercicio05(ref bool continuar)
+        private static void Exercicio05()
         {
             do
             {
@@ -209,13 +223,13 @@ namespace Atividade09_Strings.ConsoleApp
             } while (continuar);
         }
 
-        private static void Exercicio06(ref bool continuar)
+        private static void Exercicio06()
         {
             do
             {
                 Console.Clear();
 
-                string municipios = File.ReadAllText(@"C:\Users\João\Desktop\AP\Aula-17\Cidades.csv");
+                string municipios = File.ReadAllText(@"Dados\Cidades.csv");
 
                 string[] municipiosLinhaALinha = municipios.Split('\n');
 
@@ -281,8 +295,8 @@ namespace Atividade09_Strings.ConsoleApp
 
             for (int i = 0; i < municipiosArray.Length - 1; i++)
             {
-                if(municipiosArray[indicesCidadesOrdenadas[i]] != municipiosArray[0])
-                Console.WriteLine(municipiosArray[indicesCidadesOrdenadas[i]]);
+                if (municipiosArray[indicesCidadesOrdenadas[i]] != municipiosArray[0])
+                    Console.WriteLine(municipiosArray[indicesCidadesOrdenadas[i]]);
             }
         }
 
@@ -315,6 +329,121 @@ namespace Atividade09_Strings.ConsoleApp
             {
                 if (municipiosArray[indicesEstadosOrdenados[i]] != municipiosArray[0])
                     Console.WriteLine(municipiosArray[indicesEstadosOrdenados[i]]);
+            }
+        }
+
+        private static void Exercicio06V2()
+        {
+            do
+            {
+                Console.Clear();
+
+                string municipios = File.ReadAllText(@"Dados\Cidades.csv");
+
+                string[] municipiosLinhaALinha = municipios.Split('\n');
+
+                string[] cidadesEstados = new string[municipiosLinhaALinha.Length - 1];
+
+                string[] cidades = new string[cidadesEstados.Length];
+
+                ObterApenasCidadesEEstados(municipiosLinhaALinha, cidadesEstados, cidades);
+
+                MostrarMenuDeOpcoes();
+
+                EscolhaDeOpcoes(municipiosLinhaALinha, cidadesEstados, cidades);
+
+                continuar = VoltarParaOMenu();
+
+            } while (continuar);
+        }
+
+        private static void ObterApenasCidadesEEstados(string[] municipiosLinhaALinha, string[] cidadesEstados, string[] cidades)
+        {
+            int j = 0;
+
+            for (int i = 1; i < municipiosLinhaALinha.Length; i++)
+            {
+                string[] colunas = municipiosLinhaALinha[i].Split(";");
+
+                cidadesEstados[j] = colunas[2] + ";" + colunas[3];
+
+                cidades[j] = colunas[2];
+
+                j++;
+            }
+            Array.Sort(cidades);
+        }
+
+        private static void MostrarMenuDeOpcoes()
+        {
+            Console.WriteLine("Entre as opções abaixo:");
+            Console.WriteLine("(1)Mostrar Lista");
+            Console.WriteLine("(2)Mostrar Lista com Cidades em ordem alfabética");
+            Console.WriteLine("(3)Mostrar Lista com Estados em ordem alfabética");
+
+            PulaLinha();
+
+            Console.Write("O que deseja fazer? ");
+        }
+
+        private static void EscolhaDeOpcoes(string[] municipiosLinhaALinha, string[] cidadesEstados, string[] cidades)
+        {
+            int opcaoEscolhida = ValidarNumero();
+
+            switch (opcaoEscolhida)
+            {
+                case 1: Console.WriteLine(string.Join("\n", municipiosLinhaALinha)); break;
+                case 2: GerarCidadesOrdenadasPelaPrimeiraLetra(cidades); break;
+                case 3: GerarCidadesOrdenadasPeloEstado(cidadesEstados, cidades); break;
+                default: break;
+            }
+        }
+
+        private static void GerarCidadesOrdenadasPelaPrimeiraLetra(string[] cidades)
+        {
+            string alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            for (int i = 0; i < alfabeto.Length; i++)
+            {
+                PulaLinha();
+                Console.WriteLine("Cidades iniciadas com " + alfabeto[i]);
+                PulaLinha();
+
+                for (int k = 0; k < cidades.Length; k++)
+                {
+                    if (cidades[k].StartsWith(alfabeto[i]))
+                    {
+                        Console.WriteLine("\t" + cidades[k]);
+                    }
+                }
+            }
+        }
+
+        private static void GerarCidadesOrdenadasPeloEstado(string[] cidadesEstados, string[] cidades)
+        {
+            string[] estados = new string[]
+                            {"Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal",
+                 "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul",
+                 "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro",
+                 "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina",
+                 "São Paulo", "Sergipe", "Tocantins"
+                            };
+
+            for (int i = 0; i < estados.Length; i++)
+            {
+                Array.Sort(cidadesEstados);
+
+                PulaLinha();
+                Console.WriteLine("Estado: " + estados[i]);
+                PulaLinha();
+
+                for (int k = 0; k < cidadesEstados.Length; k++)
+                {
+                    if (cidadesEstados[k].Contains(estados[i]))
+                    {
+                        Console.WriteLine("\t" + cidades[k]);
+                    }
+                }
             }
         }
 
