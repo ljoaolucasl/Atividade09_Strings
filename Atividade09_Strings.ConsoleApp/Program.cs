@@ -50,7 +50,6 @@ namespace Atividade09_Strings.ConsoleApp
                 default:
                     break;
             }
-
             return continuar;
         }
 
