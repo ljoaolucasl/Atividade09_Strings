@@ -275,8 +275,13 @@ namespace Atividade09_Strings.ConsoleApp
                 indicesCidadesOrdenadas[i] = Array.IndexOf(cidadesNaoOrdenadas, cidadesOrdenadas[i]);
             }
 
+            PulaLinha();
+
+            Console.WriteLine(municipiosArray[0]);
+
             for (int i = 0; i < municipiosArray.Length - 1; i++)
             {
+                if(municipiosArray[indicesCidadesOrdenadas[i]] != municipiosArray[0])
                 Console.WriteLine(municipiosArray[indicesCidadesOrdenadas[i]]);
             }
         }
@@ -300,9 +305,16 @@ namespace Atividade09_Strings.ConsoleApp
                 indicesEstadosOrdenados[i] = Array.IndexOf(estadosNaoOrdenados, estadosOrdenados[i]);
             }
 
+            PulaLinha();
+
+            Console.WriteLine(municipiosArray[0]);
+
+            PulaLinha();
+
             for (int i = 0; i < municipiosArray.Length - 1; i++)
             {
-                Console.WriteLine(municipiosArray[indicesEstadosOrdenados[i]]);
+                if (municipiosArray[indicesEstadosOrdenados[i]] != municipiosArray[0])
+                    Console.WriteLine(municipiosArray[indicesEstadosOrdenados[i]]);
             }
         }
 
